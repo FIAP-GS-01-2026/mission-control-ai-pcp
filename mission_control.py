@@ -29,3 +29,53 @@ dados_missao = [
     [36, 48, 31, 82, 45],  # Ciclo 7 — Recuperação parcial
     [29, 68, 52, 89, 63],  # Ciclo 8 — Estabilização progressiva
 ]
+
+# ============================================================
+# FUNÇÕES DE ANÁLISE
+# ============================================================
+
+def analisar_temperatura(valor):
+    if valor < 18:
+        return "ATENÇÃO", 1, "Temperatura abaixo do ideal"
+    elif valor <= 30:
+        return "NORMAL", 0, "Temperatura estável"
+    elif valor <= 35:
+        return "ATENÇÃO", 1, "Temperatura elevada"
+    else:
+        return "CRÍTICO", 2, "Risco de superaquecimento"
+
+
+def analisar_comunicacao(valor):
+    if valor < 30:
+        return "CRÍTICO", 2, "Comunicação com a base em nível crítico"
+    elif valor < 60:
+        return "ATENÇÃO", 1, "Comunicação instável"
+    else:
+        return "NORMAL", 0, "Comunicação estável"
+
+
+def analisar_bateria(valor):
+    if valor < 20:
+        return "CRÍTICO", 2, "Bateria em nível crítico"
+    elif valor < 50:
+        return "ATENÇÃO", 1, "Bateria abaixo do recomendado"
+    else:
+        return "NORMAL", 0, "Energia estável"
+
+
+def analisar_oxigenio(valor):
+    if valor < 80:
+        return "CRÍTICO", 2, "Oxigênio em nível crítico"
+    elif valor < 90:
+        return "ATENÇÃO", 1, "Oxigênio abaixo do ideal"
+    else:
+        return "NORMAL", 0, "Oxigênio adequado"
+
+
+def analisar_estabilidade(valor):
+    if valor < 40:
+        return "CRÍTICO", 2, "Estabilidade operacional crítica"
+    elif valor < 70:
+        return "ATENÇÃO", 1, "Estabilidade operacional reduzida"
+    else:
+        return "NORMAL", 0, "Estabilidade operacional adequada"
