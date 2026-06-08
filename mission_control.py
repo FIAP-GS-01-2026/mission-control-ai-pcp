@@ -79,3 +79,46 @@ def analisar_estabilidade(valor):
         return "ATENÇÃO", 1, "Estabilidade operacional reduzida"
     else:
         return "NORMAL", 0, "Estabilidade operacional adequada"
+
+
+def classificar_ciclo(pontuacao):
+    if pontuacao <= 2:
+        return "MISSÃO ESTÁVEL"
+    elif pontuacao <= 5:
+        return "MISSÃO EM ATENÇÃO"
+    else:
+        return "MISSÃO CRÍTICA"
+
+
+def analisar_tendencia(riscos):
+    if riscos[-1] > riscos[0]:
+        return "A missão apresentou tendência de piora."
+    elif riscos[-1] < riscos[0]:
+        return "A missão apresentou tendência de melhora."
+    else:
+        return "A missão permaneceu estável em relação ao início."
+
+
+def identificar_area_mais_afetada(pontuacoes_por_area):
+    maior = max(pontuacoes_por_area)
+    indice = pontuacoes_por_area.index(maior)
+    return areas_monitoradas[indice], maior
+
+
+def gerar_recomendacao(classificacao, alertas_criticos):
+    if classificacao == "MISSÃO CRÍTICA":
+        if len(alertas_criticos) >= 3:
+            return "Ativar modo de segurança e priorizar suporte à vida, energia e comunicação."
+        recomendacoes = {
+            "Temperatura interna": "Verificar controle térmico da missão.",
+            "Comunicação com a base": "Tentar restabelecer contato com a base.",
+            "Sistema de energia": "Ativar modo de economia de energia.",
+            "Suporte de oxigênio": "Acionar protocolo de suporte à vida.",
+            "Estabilidade operacional": "Reduzir operações não essenciais."
+        }
+        for area in alertas_criticos:
+            if area in recomendacoes:
+                return recomendacoes[area]
+    elif classificacao == "MISSÃO EM ATENÇÃO":
+        return "Monitorar sistemas em atenção e preparar plano de contingência."
+    return "Manter operação normal e continuar monitoramento."
