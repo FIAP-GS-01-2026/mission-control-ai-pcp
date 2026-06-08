@@ -223,9 +223,9 @@ def gerar_relatorio_final(riscos, pontuacoes_por_area):
     print(f"Maior pontuação de risco: {max(riscos)}")
     print(f"Risco médio da missão: {risco_medio:.2f}")
     print(f"Quantidade de ciclos críticos: {ciclos_criticos}")
-    print(f"\nTendência da missão:")
-    print(f"{tendencia}")
-    print(f"\nPontuação acumulada por área:")
+    print("\nTendência da missão:")
+    print(tendencia)
+    print("\nPontuação acumulada por área:")
     for i, area in enumerate(areas_monitoradas):
         print(f"  {area}: {pontuacoes_por_area[i]} pontos")
     print(f"\nÁrea mais afetada: {area_afetada}")
