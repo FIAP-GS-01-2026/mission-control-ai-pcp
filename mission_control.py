@@ -186,3 +186,63 @@ def executar_missao():
         print(f"Recomendação: {recomendacao}")
 
     return riscos, pontuacoes_por_area
+
+
+# ============================================================
+# RELATÓRIO FINAL
+# ============================================================
+
+def gerar_relatorio_final(riscos, pontuacoes_por_area):
+    total_ciclos = len(dados_missao)
+    medias = []
+    for col in range(5):
+        total = 0
+        for linha in dados_missao:
+            total += linha[col]
+        medias.append(total / total_ciclos)
+
+    ciclo_critico = riscos.index(max(riscos)) + 1
+    risco_medio = sum(riscos) / total_ciclos
+    ciclos_criticos = sum(1 for r in riscos if r >= 6)
+    tendencia = analisar_tendencia(riscos)
+    area_afetada, pontos_area = identificar_area_mais_afetada(pontuacoes_por_area)
+    classificacao_final = classificar_ciclo(round(risco_medio))
+
+    print("\n" + "=" * 60)
+    print("RELATÓRIO FINAL DA MISSÃO")
+    print("=" * 60)
+    print(f"Missão: {NOME_MISSAO}")
+    print(f"Equipe: {NOME_EQUIPE}")
+    print(f"\nQuantidade de ciclos analisados: {total_ciclos}")
+    print(f"Média de temperatura:   {medias[0]:.2f} °C")
+    print(f"Média de comunicação:   {medias[1]:.2f}%")
+    print(f"Média de bateria:       {medias[2]:.2f}%")
+    print(f"Média de oxigênio:      {medias[3]:.2f}%")
+    print(f"Média de estabilidade:  {medias[4]:.2f}%")
+    print(f"\nCiclo mais crítico: Ciclo {ciclo_critico}")
+    print(f"Maior pontuação de risco: {max(riscos)}")
+    print(f"Risco médio da missão: {risco_medio:.2f}")
+    print(f"Quantidade de ciclos críticos: {ciclos_criticos}")
+    print(f"\nTendência da missão:")
+    print(f"{tendencia}")
+    print(f"\nPontuação acumulada por área:")
+    for i, area in enumerate(areas_monitoradas):
+        print(f"  {area}: {pontuacoes_por_area[i]} pontos")
+    print(f"\nÁrea mais afetada: {area_afetada}")
+    print(f"\nClassificação final da missão: {classificacao_final}")
+    print("\nConclusão:")
+    if classificacao_final == "MISSÃO CRÍTICA":
+        print("A missão enfrentou situação crítica severa. Protocolo de emergência deve permanecer ativo.")
+    elif classificacao_final == "MISSÃO EM ATENÇÃO":
+        print("A missão apresentou instabilidade relevante durante a operação. A equipe deve manter o plano de contingência ativo.")
+    else:
+        print("A missão foi concluída com estabilidade. Sistemas operando dentro dos parâmetros normais.")
+    print("=" * 60)
+
+
+# ============================================================
+# EXECUÇÃO
+# ============================================================
+
+riscos, pontuacoes_por_area = executar_missao()
+gerar_relatorio_final(riscos, pontuacoes_por_area)
