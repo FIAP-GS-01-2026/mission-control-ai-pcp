@@ -122,3 +122,67 @@ def gerar_recomendacao(classificacao, alertas_criticos):
     elif classificacao == "MISSÃO EM ATENÇÃO":
         return "Monitorar sistemas em atenção e preparar plano de contingência."
     return "Manter operação normal e continuar monitoramento."
+
+
+# ============================================================
+# LOOP PRINCIPAL — ANÁLISE DOS CICLOS
+# ============================================================
+
+def executar_missao():
+    print("=" * 60)
+    print("MISSION CONTROL AI")
+    print("=" * 60)
+    print(f"Missão: {NOME_MISSAO}")
+    print(f"Equipe: {NOME_EQUIPE}")
+    print(f"Quantidade de ciclos analisados: {len(dados_missao)}")
+    print("=" * 60)
+
+    riscos = []
+    pontuacoes_por_area = [0, 0, 0, 0, 0]
+
+    for i, ciclo in enumerate(dados_missao):
+        temperatura, comunicacao, bateria, oxigenio, estabilidade = ciclo
+
+        status_temp,  pts_temp,  desc_temp  = analisar_temperatura(temperatura)
+        status_com,   pts_com,   desc_com   = analisar_comunicacao(comunicacao)
+        status_bat,   pts_bat,   desc_bat   = analisar_bateria(bateria)
+        status_oxi,   pts_oxi,   desc_oxi   = analisar_oxigenio(oxigenio)
+        status_est,   pts_est,   desc_est   = analisar_estabilidade(estabilidade)
+
+        pontuacao_ciclo = pts_temp + pts_com + pts_bat + pts_oxi + pts_est
+        riscos.append(pontuacao_ciclo)
+
+        pontuacoes_por_area[0] += pts_temp
+        pontuacoes_por_area[1] += pts_com
+        pontuacoes_por_area[2] += pts_bat
+        pontuacoes_por_area[3] += pts_oxi
+        pontuacoes_por_area[4] += pts_est
+
+        classificacao = classificar_ciclo(pontuacao_ciclo)
+
+        alertas_criticos = []
+        if status_temp == "CRÍTICO":
+            alertas_criticos.append("Temperatura interna")
+        if status_com == "CRÍTICO":
+            alertas_criticos.append("Comunicação com a base")
+        if status_bat == "CRÍTICO":
+            alertas_criticos.append("Sistema de energia")
+        if status_oxi == "CRÍTICO":
+            alertas_criticos.append("Suporte de oxigênio")
+        if status_est == "CRÍTICO":
+            alertas_criticos.append("Estabilidade operacional")
+
+        recomendacao = gerar_recomendacao(classificacao, alertas_criticos)
+
+        print(f"\nCICLO {i + 1}")
+        print("-" * 60)
+        print(f"Temperatura:  {temperatura} °C | {status_temp} | {desc_temp}")
+        print(f"Comunicação:  {comunicacao}%  | {status_com} | {desc_com}")
+        print(f"Bateria:      {bateria}%  | {status_bat} | {desc_bat}")
+        print(f"Oxigênio:     {oxigenio}%  | {status_oxi} | {desc_oxi}")
+        print(f"Estabilidade: {estabilidade}%  | {status_est} | {desc_est}")
+        print(f"\nPontuação de risco do ciclo: {pontuacao_ciclo}")
+        print(f"Classificação do ciclo: {classificacao}")
+        print(f"Recomendação: {recomendacao}")
+
+    return riscos, pontuacoes_por_area
