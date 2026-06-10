@@ -102,4 +102,4 @@ mission-control-ai-pcp/
 
 ## Vídeo pitch
 
-[Link do vídeo no YouTube](https://youtube.com)
+[Assistir Vídeo Pitch](https://youtu.be/hoEcu7UuR00)
